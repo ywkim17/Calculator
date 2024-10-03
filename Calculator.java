@@ -3,69 +3,111 @@ import java.awt.*;
 import java.awt.event.*;
 
 public class Calculator {
+    // Fields
     private static double num1 = 0;
     private static double num2 = 0;
     private static double result = 0;
     private static String currentExpression = "";
 
-    public static enum Mode {
+    static Mode mode = Mode.FIRST;
+    static Operator operator = Operator.NONE;
+    static JFrame frame = new JFrame();
+    static JLabel label = new JLabel("0", SwingConstants.CENTER);
+
+    // Calculator states
+    public static enum Mode {   
         FIRST,
         OPERATOR,
         SECOND
     }
 
+    // Operator types
     public static enum Operator {
         ADD,
         SUBTRACT,
         MULTIPLY,
         DIVIDE,
+        SQUAREROOT,
         NONE
     }
 
-    static Mode mode = Mode.FIRST;
-    static Operator operator = Operator.NONE;
-
-    static JFrame frame = new JFrame();
-    static JLabel label = new JLabel("0", SwingConstants.CENTER);
-
+    // Main method
     public static void main(String[] args) {
         // Create frame
         frame.setLayout(new FlowLayout());
-        frame.setSize(250, 350);
+        frame.setSize(260, 430);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         // Initialize number buttons
         JButton[] numberButtons = new JButton[10];
         for (int i = 0; i < 10; i++) {
             numberButtons[i] = new JButton((i + ""));
-            numberButtons[i].setPreferredSize(new Dimension(50, 50));
+            numberButtons[i].setPreferredSize(new Dimension(60, 60));
+            numberButtons[i].setOpaque(true);
+            numberButtons[i].setBorderPainted(false);
+            numberButtons[i].setBackground(Color.decode("#b684d1"));
         }
 
         // Constructors of symbol buttons
         JButton addition = new JButton("+");
+        addition.setOpaque(true);
+        addition.setBorderPainted(false);
         JButton subtraction = new JButton("-");
+        subtraction.setOpaque(true);
+        subtraction.setBorderPainted(false);
         JButton multiplication = new JButton("x");
+        multiplication.setOpaque(true);
+        multiplication.setBorderPainted(false);
         JButton division = new JButton("÷");
+        division.setOpaque(true);
+        division.setBorderPainted(false);
         JButton decimal = new JButton(".");
+        decimal.setOpaque(true);
+        decimal.setBorderPainted(false);
         JButton equals = new JButton("=");
+        equals.setOpaque(true);
+        equals.setBorderPainted(false);
         JButton clear = new JButton("C");
+        clear.setOpaque(true);
+        clear.setBorderPainted(false);
         JButton ce = new JButton("CE");
+        ce.setOpaque(true);
+        ce.setBorderPainted(false);
         JButton squareRoot = new JButton("√");
+        squareRoot.setOpaque(true);
+        squareRoot.setBorderPainted(false);
         JButton square = new JButton("x²");
+        square.setOpaque(true);
+        square.setBorderPainted(false);
 
         // Set sizes of symbol buttons
-        addition.setPreferredSize(new Dimension(50, 50));
-        subtraction.setPreferredSize(new Dimension(50, 50));
-        multiplication.setPreferredSize(new Dimension(50, 50));
-        division.setPreferredSize(new Dimension(50, 50));
-        decimal.setPreferredSize(new Dimension(50, 50));
-        equals.setPreferredSize(new Dimension(50, 50));
-        clear.setPreferredSize(new Dimension(50, 50));
-        ce .setPreferredSize(new Dimension(50,50));
-        squareRoot.setPreferredSize(new Dimension(50,50));
-        square.setPreferredSize(new Dimension(50, 50));
+        addition.setPreferredSize(new Dimension(60, 60));
+        subtraction.setPreferredSize(new Dimension(60, 60));
+        multiplication.setPreferredSize(new Dimension(60, 60));
+        division.setPreferredSize(new Dimension(60, 60));
+        decimal.setPreferredSize(new Dimension(60, 60));
+        equals.setPreferredSize(new Dimension(60, 60));
+        clear.setPreferredSize(new Dimension(60, 60));
+        ce .setPreferredSize(new Dimension(60,60));
+        squareRoot.setPreferredSize(new Dimension(60,60));
+        square.setPreferredSize(new Dimension(60, 60));
+
+        // Set colors for each operation button
+        addition.setBackground(Color.decode("#74b8b8"));
+        subtraction.setBackground(Color.decode("#74b8b8"));
+        multiplication.setBackground(Color.decode("#74b8b8"));
+        division.setBackground(Color.decode("#74b8b8"));
+        decimal.setBackground(Color.decode("#c5cf70"));
+        equals.setBackground(Color.decode("#c5cf70"));
+        clear.setBackground(Color.decode("#c5cf70"));
+        ce.setBackground(Color.decode("#c5cf70"));
+        squareRoot.setBackground(Color.decode("#c5cf70"));
+        square.setBackground(Color.decode("#c5cf70"));
 
         // Initialize output log
-        label.setPreferredSize(new Dimension(280, 40));
+        label.setPreferredSize(new Dimension(260, 70));
+        label.setBackground(Color.GRAY);
+        label.setOpaque(true);
 
         // Add components to the frame
         frame.getContentPane().add(label);
@@ -90,7 +132,7 @@ public class Calculator {
         frame.getContentPane().add(equals);
         frame.getContentPane().add(addition);
 
-        // Show number on output log when the number is clicked
+        // Number buttons function
         for(int i = 0; i < 10; i++) {
             final int n = i;
             numberButtons[i].addActionListener(new ActionListener() {
@@ -110,7 +152,7 @@ public class Calculator {
             });
         }
 
-        // Show addition sign on output log when the button is clicked
+        // Addition function
         addition.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -124,7 +166,7 @@ public class Calculator {
             }
         });
 
-        // Show subtraction sign on output log when the button is clicked
+        // Subtraction function
         subtraction.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -138,7 +180,7 @@ public class Calculator {
             }
         });
 
-        // Show multiplication sign on output log when the button is clicked
+        // Multiplication function
         multiplication.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -152,7 +194,7 @@ public class Calculator {
             }
         });
 
-        // Show division sign on output log when the button is clicked
+        // Division function
         division.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -166,7 +208,7 @@ public class Calculator {
             }
         });
         
-        // Calculates the operation of the two numbers
+        // Operation function
         equals.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -186,7 +228,8 @@ public class Calculator {
                     result = (num1 * num2);
                 } else if(operator == Operator.DIVIDE) {
                     result = (num1 / num2);
-                }
+                } 
+
                 mode = Mode.FIRST;
                 operator = Operator.NONE;
                 num1 = result;
@@ -214,11 +257,39 @@ public class Calculator {
             public void actionPerformed(ActionEvent e) {
                 if(mode == Mode.FIRST) {
                     num1 = 0;
-                } else if(mode == Mode.SECOND) {
+                } else if(mode == Mode.SECOND || mode == Mode.OPERATOR) {
                     num2 = 0;
                     mode = Mode.FIRST;
                 }
                 updateDisplay();
+            }
+        });
+
+        // Square root function
+        squareRoot.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(mode == Mode.FIRST) {
+                    mode = Mode.OPERATOR;
+                    operator = Operator.SQUAREROOT;
+                    label.setText(Math.sqrt(num1) + "");
+                } else if(mode == Mode.OPERATOR || mode == Mode.SECOND) {
+                    label.setText("Error");
+                }
+            }
+        });
+
+        // Square function
+        square.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(mode == Mode.FIRST) {
+                    mode = Mode.OPERATOR;
+                    operator = Operator.SQUAREROOT;
+                    label.setText(Math.pow(num1, 2) + "");
+                } else if(mode == Mode.OPERATOR || mode == Mode.SECOND) {
+                    label.setText("Error");
+                }
             }
         });
 
@@ -229,7 +300,8 @@ public class Calculator {
 
     // Update function
     public static void updateDisplay() {
-        String op = "";    
+        String op = "";
+
         if(operator == Operator.ADD ) {
             op = " + ";
         } else if(operator == Operator.SUBTRACT) {
@@ -244,6 +316,7 @@ public class Calculator {
         String number2 = num2 + "";
         number1 = number1.replace(".0", "");
         number2 = number2.replace(".0", "");
+
         if(mode == Mode.FIRST) {
             currentExpression = number1;
         } else if(mode == Mode.SECOND) {
@@ -251,6 +324,7 @@ public class Calculator {
         } else if(mode == Mode.OPERATOR) {
             currentExpression = number1 + op;
         }
+        
         label.setText(currentExpression);
    }
 }
